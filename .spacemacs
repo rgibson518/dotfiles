@@ -33,7 +33,7 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     ;;ruby
+     ruby
      yaml
      html
      ;; Post install added
@@ -47,7 +47,7 @@ This function should only modify configuration layer settings."
                  )
      (typescript :variables
                  ;;typescript-backend 'tide
-                 typescript-backend 'lsp
+                 ;;typescript-backend 'lsp
                  ;;tide-tsserver-executable "/usr/local/bin/tsserver"
                  typescript-linter 'eslint
                  typescript-fmt-on-save t
@@ -65,7 +65,7 @@ This function should only modify configuration layer settings."
      helm
      lsp
      markdown
-     ;; multiple-cursors
+     multiple-cursors
      ;; org
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -73,6 +73,8 @@ This function should only modify configuration layer settings."
      ;; spell-checking
      ;; syntax-checking
      ;; version-control
+     terraform
+     docker
      treemacs)
 
 
@@ -525,8 +527,12 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (global-linum-mode 1)
   (setq-default typescript-indent-level 2)
-  (setq-default typescript-tsx-indent-level 2)
   (setq-default json-indent-level 2)
+  (setq-default json-fmt-on-save t)
+  (setq-default js-indent-level 2)
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'web-mode-hook 'prettier-js-mode)
+  (setq-default typescript-tsx-indent-level 2)
   (global-set-key (kbd "H-/") 'evil-toggle-fold)
   (global-set-key (kbd "M-/") 'comment-or-uncomment-region)
   (global-set-key (kbd "C-.") 'lsp-find-references)
@@ -534,8 +540,10 @@ before packages are loaded."
   (global-set-key (kbd "H-k") 'enlarge-window-horizontally)
   (global-set-key (kbd "H-n") 'shrink-window)
   (global-set-key (kbd "H-p") 'enlarge-window)
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode))
-  
+  (global-set-key (kbd "H-.") 'end-of-buffer)
+  (global-set-key (kbd "H-,") 'beginning-of-buffer)
+  (global-set-key (kbd "<H-return>") 'completion-at-point)
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode)) 
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -550,8 +558,11 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes '(misterioso))
+ '(evil-want-Y-yank-to-eol nil)
+ '(helm-completion-style 'emacs)
  '(package-selected-packages
-   '(skewer-mode hierarchy json-snatcher json-reformat multiple-cursors js2-mode typescript-mode import-js grizzl treemacs-magit tern smeargle magit-svn magit-section magit-gitflow magit-popup helm-gitignore helm-git-grep gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit git-commit with-editor transient graphql seeing-is-believing rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe rbenv rake minitest helm-gtags ggtags enh-ruby-mode dap-mode posframe bui counsel-gtags chruby bundler inf-ruby yaml-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode impatient-mode htmlize helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data graphql-mode yasnippet-snippets mmm-mode markdown-toc lsp-ui lsp-treemacs helm-lsp lsp-mode markdown-mode dash-functional helm-company helm-c-yasnippet gh-md fuzzy flycheck-pos-tip pos-tip company auto-yasnippet ac-ispell auto-complete ws-butler writeroom-mode winum which-key web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-persp treemacs-icons-dired toc-org tide symon symbol-overlay string-inflection spaceline-all-the-icons reveal-in-osx-finder restart-emacs request rainbow-delimiters prettier-js popwin pcre2el password-generator paradox overseer osx-trash osx-dictionary osx-clipboard org-superstar open-junk-file nodejs-repl nameless mwim move-text macrostep lorem-ipsum livid-mode link-hint launchctl json-navigator json-mode js2-refactor js-doc indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode diminish devdocs column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent add-node-modules-path ace-link ace-jump-helm-line)))
+   '(dockerfile-mode docker tablist docker-tramp company-terraform terraform-mode hcl-mode command-log-mode skewer-mode hierarchy json-snatcher json-reformat multiple-cursors js2-mode typescript-mode import-js grizzl treemacs-magit tern smeargle magit-svn magit-section magit-gitflow magit-popup helm-gitignore helm-git-grep gitignore-templates gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit git-commit with-editor transient graphql seeing-is-believing rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe rbenv rake minitest helm-gtags ggtags enh-ruby-mode dap-mode posframe bui counsel-gtags chruby bundler inf-ruby yaml-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode impatient-mode htmlize helm-css-scss haml-mode emmet-mode counsel-css counsel swiper ivy company-web web-completion-data graphql-mode yasnippet-snippets mmm-mode markdown-toc lsp-ui lsp-treemacs helm-lsp lsp-mode markdown-mode dash-functional helm-company helm-c-yasnippet gh-md fuzzy flycheck-pos-tip pos-tip company auto-yasnippet ac-ispell auto-complete ws-butler writeroom-mode winum which-key web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-persp treemacs-icons-dired toc-org tide symon symbol-overlay string-inflection spaceline-all-the-icons reveal-in-osx-finder restart-emacs request rainbow-delimiters prettier-js popwin pcre2el password-generator paradox overseer osx-trash osx-dictionary osx-clipboard org-superstar open-junk-file nodejs-repl nameless mwim move-text macrostep lorem-ipsum livid-mode link-hint launchctl json-navigator json-mode js2-refactor js-doc indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav editorconfig dumb-jump dotenv-mode diminish devdocs column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent add-node-modules-path ace-link ace-jump-helm-line)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
